@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  li.navbar-link > a {
+    @apply !p-0;
+  }
+
+  li.navbar-link > a > a {
+    @apply block py-2 pr-4 pl-3 rounded md:p-0;
+  }
+
+  li.navbar-link > a > a.route-active {
+    @apply bg-blue-800 text-white md:px-1;
+  }
+}
