@@ -6,8 +6,8 @@ import { FwbFooter, FwbFooterCopyright } from 'flowbite-vue'
   <fwb-footer class="rounded-none !justify-center">
     <fwb-footer-copyright
       class="!text-center"
-      by="Flowbite™"
-      href="https://flowbite.com/"
+      by="Abdul Majid"
+      href="https://abdulmajid.dev/"
       copyright-message="All Rights Reserved."
     />
   </fwb-footer>
