@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { FwbFooter, FwbFooterCopyright } from 'flowbite-vue'
 </script>
 

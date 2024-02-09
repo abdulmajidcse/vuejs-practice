@@ -1,31 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import axios from 'axios'
-import { onMounted, ref, type Ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { FwbCard } from 'flowbite-vue'
 import { useRouter } from 'vue-router'
 
-interface proudctInterface {
-  products: [
-    {
-      id: number
-      title: string
-      description: string
-      price: number
-      discountPercentage: number
-      rating: number
-      stock: number
-      brand: string
-      category: string
-      thumbnail: string
-      images: [string]
-    }
-  ]
-  total: number
-  skip: number
-  limit: number
-}
-
-const productData: Ref<proudctInterface | { products: [] }> = ref({ products: [] })
+const productData = ref({})
 
 const router = useRouter()
 
@@ -53,10 +32,10 @@ onMounted(async () => {
     <template v-for="product in productData.products" :key="`product-${product.id}`">
       <fwb-card
         :img-alt="product.title"
-        :img-src="product.images[0]"
+        :img-src="product.thumbnail"
         variant="image"
         class="hover:cursor-pointer"
-        @click="router.push('/about')"
+        @click="router.push({ name: 'products.show', params: { id: product.id } })"
       >
         <div class="p-5">
           <p class="text-sm font-bold text-green-400">TK {{ product.price }}</p>
