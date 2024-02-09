@@ -5,7 +5,7 @@ import FrontendHeader from './components/frontend/FrontendHeader.vue'
 
 <template>
   <FrontendHeader />
-  <main class="min-h-[80dvh] container mx-auto">
+  <main class="min-h-[80dvh] container mx-auto px-3 sm:py-0">
     <RouterView />
   </main>
   <FrontendFooter />
