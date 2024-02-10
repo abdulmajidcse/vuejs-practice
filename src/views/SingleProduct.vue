@@ -1,12 +1,19 @@
 <script setup>
 import axios from 'axios'
-import { onMounted, ref } from 'vue'
-import { FwbCard } from 'flowbite-vue'
+import { computed, onMounted, ref } from 'vue'
+import { FwbCard, FwbAlert } from 'flowbite-vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
 const product = ref({})
+
+const isError = ref(false)
+
+const errorMessage = ref('')
+
+const hideErrorAlert = computed(() => ({ hidden: !isError.value }))
+const hiddenProductDetails = computed(() => ({ hidden: isError.value }))
 
 onMounted(async () => {
   try {
@@ -14,21 +21,27 @@ onMounted(async () => {
     const response = await axios.get(`https://dummyjson.com/products/${route.params.id}`)
     product.value = response.data
   } catch (error) {
+    isError.value = true
     // check error
     if (axios.isAxiosError(error)) {
-      console.log(error.message)
+      errorMessage.value = error.message
     } else {
-      console.log('unexpected error')
+      errorMessage.value = 'Something is wrong! Please, try again later!'
     }
-    console.log(error)
   }
 })
 </script>
 
 <template>
-  <h2 class="mb-4">Latest products!</h2>
+  <h2 class="mb-4">Product Details</h2>
 
-  <div class="mb-8 flex flex-col items-center">
+  <div :class="hideErrorAlert">
+    <fwb-alert icon type="danger" class="mb-4">
+      {{ errorMessage }}
+    </fwb-alert>
+  </div>
+
+  <div class="mb-8 flex flex-col items-center" :class="hiddenProductDetails">
     <fwb-card :img-alt="product.title" :img-src="product.thumbnail" variant="image">
       <div class="p-5">
         <p class="text-sm font-bold text-green-400">TK {{ product.price }}</p>
