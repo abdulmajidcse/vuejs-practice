@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { FwbButton } from 'flowbite-vue'
 
 const count = ref(0)
@@ -14,6 +14,11 @@ function greeting(event, greet) {
     alert(event.target.tagName)
   }
 }
+
+watch(count, (newCount, oldCount) => {
+  console.log(newCount)
+  console.log(oldCount)
+})
 </script>
 
 <template>
