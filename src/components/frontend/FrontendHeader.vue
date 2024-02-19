@@ -18,12 +18,6 @@ import logo from '@/assets/img/logo.png'
         </fwb-navbar-link>
 
         <fwb-navbar-link class="navbar-link">
-          <router-link :to="{ name: 'latest' }" exact-active-class="route-active"
-            >Latest</router-link
-          >
-        </fwb-navbar-link>
-
-        <fwb-navbar-link class="navbar-link">
           <router-link :to="{ name: 'about' }" exact-active-class="route-active">About</router-link>
         </fwb-navbar-link>
 
@@ -31,6 +25,10 @@ import logo from '@/assets/img/logo.png'
           <router-link :to="{ name: 'contact' }" exact-active-class="route-active"
             >Contact</router-link
           >
+        </fwb-navbar-link>
+
+        <fwb-navbar-link class="navbar-link">
+          <router-link :to="{ name: 'login' }" exact-active-class="route-active">Login</router-link>
         </fwb-navbar-link>
       </fwb-navbar-collapse>
     </template>
