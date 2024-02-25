@@ -4,8 +4,7 @@ import ContactView from '@/views/ContactView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SingleProduct from '@/views/SingleProduct.vue'
 import ProfileView from '@/views/ProfileView.vue'
-import axios from 'axios'
-import { useCookies } from 'vue3-cookies'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,30 +47,17 @@ const router = createRouter({
   ]
 })
 
-const { cookies } = useCookies()
-
 router.beforeEach(async (to, from, next) => {
   if (to.meta.middleware == 'guest' || to.meta.middleware == 'auth') {
-    try {
-      const authUser = await axios.get('https://dummyjson.com/auth/me', {
-        headers: {
-          Authorization: `Bearer ${cookies.get('token')}`
-        }
-      })
+    const auth = useAuthStore()
+    const isAuthenticated = await auth.isAuthenticated()
 
-      console.log(authUser)
-      if (authUser.data && to.meta.middleware == 'auth') {
-        next()
-      } else if (authUser.data && to.meta.middleware == 'guest') {
-        next({ name: 'profile' })
-      }
-    } catch (error) {
-      console.log(error)
-      if (to.meta.middleware == 'auth') {
-        next({ name: 'login' })
-      } else if (to.meta.middleware == 'guest') {
-        next()
-      }
+    if (isAuthenticated && to.meta.middleware == 'auth') {
+      next()
+    } else if (isAuthenticated && to.meta.middleware == 'guest') {
+      next({ name: 'profile' })
+    } else {
+      next()
     }
   } else {
     next()
