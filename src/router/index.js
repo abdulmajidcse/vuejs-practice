@@ -6,6 +6,7 @@ import SingleProduct from '@/views/SingleProduct.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 import NotFoundView from '@/views/NotFoundView.vue'
+import { useLoadingStore } from '@/stores/loading'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,6 +55,9 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  const loading = useLoadingStore()
+  loading.startLoading()
+
   if (to.meta.middleware == 'guest' || to.meta.middleware == 'auth') {
     const auth = useAuthStore()
     const isAuthenticated = await auth.isAuthenticated()
@@ -68,6 +72,11 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next()
   }
+})
+
+router.afterEach(() => {
+  const loading = useLoadingStore()
+  loading.stopLoading()
 })
 
 export default router
