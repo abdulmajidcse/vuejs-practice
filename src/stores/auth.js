@@ -8,18 +8,30 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function isAuthenticated() {
     const { cookies } = useCookies()
-    try {
-      const authUser = await axios.get('https://dummyjson.com/auth/me', {
-        headers: {
-          Authorization: `Bearer ${cookies.get('token')}`
-        }
-      })
+    const authToken = cookies.get('token')
 
-      // update authenticated user data
-      user.value = authUser.data
-      
-      return true
-    } catch (error) {
+    // check the current user is authenticated or not if token is exists
+    if (authToken) {
+      try {
+        const authUser = await axios.get('https://dummyjson.com/auth/me', {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        })
+
+        // update authenticated user data
+        user.value = authUser.data
+
+        return true
+      } catch (error) {
+        // remove auth token from cookies
+        cookies.remove('token')
+        // set empty user data
+        user.value = {}
+
+        return false
+      }
+    } else {
       // remove auth token from cookies
       cookies.remove('token')
       // set empty user data

@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ContactView from '@/views/ContactView.vue'
 import LoginView from '@/views/LoginView.vue'
 import SingleProduct from '@/views/SingleProduct.vue'
-import ProfileView from '@/views/ProfileView.vue'
+import DashboardView from '@/views/DashboardView.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
@@ -39,9 +39,9 @@ const router = createRouter({
       meta: { middleware: 'guest' }
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: ProfileView,
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardView,
       meta: { middleware: 'auth' }
     }
   ]
@@ -52,10 +52,10 @@ router.beforeEach(async (to, from, next) => {
     const auth = useAuthStore()
     const isAuthenticated = await auth.isAuthenticated()
 
-    if (isAuthenticated && to.meta.middleware == 'auth') {
-      next()
-    } else if (isAuthenticated && to.meta.middleware == 'guest') {
-      next({ name: 'profile' })
+    if (isAuthenticated && to.meta.middleware == 'guest') {
+      next({ name: 'dashboard' })
+    } else if (!isAuthenticated && to.meta.middleware == 'auth') {
+      next({ name: 'login' })
     } else {
       next()
     }
