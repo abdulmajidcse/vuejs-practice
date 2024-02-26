@@ -4,6 +4,7 @@ import { FwbInput, FwbButton } from 'flowbite-vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useCookies } from 'vue3-cookies'
+import { authTokenName } from '@/helpers/constants'
 
 const { cookies } = useCookies()
 
@@ -24,11 +25,11 @@ const login = async () => {
 
   try {
     const loginResponse = await axios.post('https://dummyjson.com/auth/login', formData)
-    cookies.set('token', loginResponse.data.token)
+    cookies.set(authTokenName, loginResponse.data.token)
     loginError.value = ''
 
     if (loginResponse.data.token) {
-      router.push({ name: 'profile' })
+      router.push({ name: 'dashboard' })
     }
   } catch (error) {
     loginError.value = 'Username or password are wrong!'
