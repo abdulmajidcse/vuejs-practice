@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useCookies } from 'vue3-cookies'
 import { authTokenName } from '@/helpers/constants'
+import { dummyJsonApi } from '@/helpers/urls'
 
 const { cookies } = useCookies()
 
@@ -15,7 +16,7 @@ export const useAuthStore = defineStore('auth', () => {
     // check the current user is authenticated or not if token is exists
     if (authToken) {
       try {
-        const authUser = await axios.get('https://dummyjson.com/auth/me', {
+        const authUser = await axios.get(`${dummyJsonApi}/auth/me`, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }

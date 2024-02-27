@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useCookies } from 'vue3-cookies'
 import { authTokenName } from '@/helpers/constants'
+import { dummyJsonApi } from '@/helpers/urls'
 
 const { cookies } = useCookies()
 
@@ -24,7 +25,7 @@ const login = async () => {
   loginError.value = ''
 
   try {
-    const loginResponse = await axios.post('https://dummyjson.com/auth/login', formData)
+    const loginResponse = await axios.post(`${dummyJsonApi}/auth/login`, formData)
     cookies.set(authTokenName, loginResponse.data.token)
     loginError.value = ''
 
