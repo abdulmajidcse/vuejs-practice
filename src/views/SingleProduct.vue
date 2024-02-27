@@ -3,6 +3,7 @@ import axios from 'axios'
 import { computed, onMounted, ref } from 'vue'
 import { FwbCard, FwbAlert } from 'flowbite-vue'
 import { useRoute } from 'vue-router'
+import { dummyJsonApi } from '@/helpers/urls'
 
 const route = useRoute()
 
@@ -18,7 +19,7 @@ const hiddenProductDetails = computed(() => ({ hidden: isError.value }))
 onMounted(async () => {
   try {
     // get all products
-    const response = await axios.get(`https://dummyjson.com/products/${route.params.id}`)
+    const response = await axios.get(`${dummyJsonApi}/products/${route.params.id}`)
     product.value = response.data
   } catch (error) {
     isError.value = true

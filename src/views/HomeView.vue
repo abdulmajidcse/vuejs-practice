@@ -3,6 +3,7 @@ import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { FwbCard } from 'flowbite-vue'
 import { useRouter } from 'vue-router'
+import { dummyJsonApi } from '@/helpers/urls'
 
 const productData = ref({})
 
@@ -11,7 +12,7 @@ const router = useRouter()
 onMounted(async () => {
   try {
     // get all products
-    const response = await axios.get('https://dummyjson.com/products')
+    const response = await axios.get(`${dummyJsonApi}/products`)
     productData.value = response.data
   } catch (error) {
     // check error
