@@ -4,6 +4,7 @@ import { computed, onMounted, ref } from 'vue'
 import { FwbCard, FwbAlert } from 'flowbite-vue'
 import { useRoute } from 'vue-router'
 import { dummyJsonApi } from '@/helpers/urls'
+import { useLoadingStore } from '@/stores/loading'
 
 const route = useRoute()
 
@@ -14,9 +15,14 @@ const isError = ref(false)
 const errorMessage = ref('')
 
 const hideErrorAlert = computed(() => ({ hidden: !isError.value }))
-const hiddenProductDetails = computed(() => ({ hidden: isError.value }))
+const hiddenProductDetails = computed(() => ({
+  hidden: isError.value || Object.keys(product.value).length === 0
+}))
 
 onMounted(async () => {
+  const loading = useLoadingStore()
+  loading.startLoading()
+
   try {
     // get all products
     const response = await axios.get(`${dummyJsonApi}/products/${route.params.id}`)
@@ -25,10 +31,12 @@ onMounted(async () => {
     isError.value = true
     // check error
     if (axios.isAxiosError(error)) {
-      errorMessage.value = error.message
-    } else {
       errorMessage.value = 'Something is wrong! Please, try again later!'
+    } else {
+      errorMessage.value = 'Unexpected App Error!'
     }
+  } finally {
+    loading.stopLoading()
   }
 })
 </script>
