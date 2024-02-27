@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router'
 import { useCookies } from 'vue3-cookies'
 import { authTokenName } from '@/helpers/constants'
 import { dummyJsonApi } from '@/helpers/urls'
+import { push } from 'notivue'
 
 const { cookies } = useCookies()
 
@@ -30,6 +31,7 @@ const login = async () => {
     loginError.value = ''
 
     if (loginResponse.data.token) {
+      push.success('You are logged in!')
       router.push({ name: 'dashboard' })
     }
   } catch (error) {
