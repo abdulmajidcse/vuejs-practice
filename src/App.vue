@@ -8,7 +8,7 @@ const loading = useLoadingStore()
 </script>
 
 <template>
-  <LoadingSkeleton v-if="loading.isLoading" />
+  <LoadingSkeleton v-show="loading.isLoading" />
   <FrontendHeader />
   <main class="min-h-[80dvh] container mx-auto px-3 sm:py-0">
     <RouterView />
