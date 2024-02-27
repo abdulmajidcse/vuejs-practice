@@ -14,6 +14,7 @@
     "axios": "^1.6.7",
     "flowbite": "^2.2.1",
     "flowbite-vue": "^0.1.2",
+    "notivue": "^2.2.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5",

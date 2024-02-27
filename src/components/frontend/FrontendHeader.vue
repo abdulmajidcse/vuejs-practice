@@ -3,12 +3,16 @@ import { FwbNavbar, FwbNavbarCollapse, FwbNavbarLink, FwbNavbarLogo } from 'flow
 import logo from '@/assets/img/logo.png'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { push } from 'notivue'
 
 const auth = useAuthStore()
 const router = useRouter()
 
 function logout() {
   auth.logout()
+
+  push.success('You are logged out!')
+
   router.push({ name: 'login' })
 }
 </script>
@@ -43,7 +47,11 @@ function logout() {
               >Dashboard</router-link
             >
           </fwb-navbar-link>
-          <fwb-navbar-link class="navbar-link" link="#" @click.stop="logout"
+
+          <fwb-navbar-link
+            class="navbar-link block py-2 pr-4 pl-3 rounded md:p-0"
+            link="#"
+            @click.stop="logout"
             >Logout</fwb-navbar-link
           >
         </template>
